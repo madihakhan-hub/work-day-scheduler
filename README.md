@@ -32,10 +32,3 @@ This is a simple calendar application that allows users to create a schedule for
 
 No installation is required. Simply open the `index.html` file in your web browser to start using the application.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-Feel free to customize this README.md file further based on your project's specific details and requirements. Let me know if you need any additional information or assistance!
