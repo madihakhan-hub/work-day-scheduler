@@ -22,8 +22,34 @@
   // TODO: Add code to display the current date in the header of the page.
 
   $(function () {
+    // Function to generate time blocks for standard business hours (9am to 5pm)
+    function generateTimeBlocks() {
+      var container = $(".container-fluid");
+      for (var i = 9; i <= 17; i++) {
+        var timeBlock = $("<div>")
+          .attr("id", "hour-" + i)
+          .addClass("row time-block");
+        var hourCol = $("<div>")
+          .addClass("col-2 col-md-1 hour text-center py-3")
+          .text(i + "AM");
+        if (i > 12) {
+          hourCol.text((i - 12) + "PM");
+        }
+        var descriptionCol = $("<textarea>")
+          .addClass("col-8 col-md-10 description")
+          .attr("rows", "3");
+        var saveBtn = $("<button>")
+          .addClass("btn saveBtn col-2 col-md-1")
+          .attr("aria-label", "save")
+          .html('<i class="fas fa-save" aria-hidden="true"></i>');
+  
+        timeBlock.append(hourCol, descriptionCol, saveBtn);
+        container.append(timeBlock);
+      }
+    }
+  
     // Add a listener for click events on the save button
-    $(".saveBtn").click(function() {
+    $(".container-fluid").on("click", ".saveBtn", function() {
       var hour = $(this).parent().attr("id").split("-")[1];
       var eventText = $(this).siblings(".description").val();
       localStorage.setItem("event-" + hour, eventText);
@@ -45,7 +71,7 @@
       });
     }
   
-    // Load saved events from localStorage
+    // Load saved events from localStorage and set the values of the corresponding textarea elements
     for (var i = 9; i <= 17; i++) {
       var savedEvent = localStorage.getItem("event-" + i);
       if (savedEvent) {
@@ -53,11 +79,12 @@
       }
     }
   
-    // Display current date in the header of the page
+    // Display the current date in the header of the page
     var currentDay = dayjs().format("dddd, MMMM D");
     $("#currentDay").text("Today is " + currentDay);
   
-    // Call updateHourlyBlocks function when the page loads
+    // Call functions to generate time blocks and update hourly blocks when the page loads
+    generateTimeBlocks();
     updateHourlyBlocks();
   
     // Update time-block classes every minute
